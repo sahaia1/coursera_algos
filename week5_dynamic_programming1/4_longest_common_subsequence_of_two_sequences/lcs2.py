@@ -2,9 +2,19 @@
 
 import sys
 
+
 def lcs2(a, b):
-    #write your code here
-    return min(len(a), len(b))
+    a = [0] + a
+    b = [0] + b
+    D = [[0 for _ in range(len(b))] for _ in range(len(a))]
+    for i in range(1, len(a)):
+        for j in range(1, len(b)):
+            if a[i] == b[j]:
+                D[i][j] = 1 + D[i - 1][j - 1]
+            else:
+                D[i][j] = max(D[i - 1][j], D[i][j - 1])
+    return D[-1][-1]
+
 
 if __name__ == '__main__':
     input = sys.stdin.read()
