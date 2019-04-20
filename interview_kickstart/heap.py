@@ -3,7 +3,8 @@ Heap class
 '''
 
 class Heap(object):
-	def __init__(self, arr):
+	def __init__(self, arr, max=False):
+		self.factor = -1 if max else 1
 		self.arr = arr
 		self.size = len(arr)
 		self.build_heap()
@@ -17,10 +18,10 @@ class Heap(object):
 		left_child = self.get_left(idx)
 		right_child = self.get_right(idx)
 
-		if left_child and self.arr[left_child] < self.arr[to_swap]:
+		if left_child and self.factor * self.arr[left_child] < self.factor * self.arr[to_swap]:
 			to_swap = left_child
 
-		if right_child and self.arr[right_child] < self.arr[to_swap]:
+		if right_child and self.factor * self.arr[right_child] < self.factor * self.arr[to_swap]:
 			to_swap = right_child
 
 		if to_swap != idx:
@@ -52,5 +53,6 @@ class Heap(object):
 
 if __name__ == '__main__':
 	arr = [1,23,123,123223,0,-123,-1423534,2]
-	h = Heap(arr[:])
-	assert h.heap_sort() == sorted(arr)
+	h = Heap(arr[:], max=True)
+	assert h.heap_sort() == sorted(arr, reverse=True)
+	print(h.arr)
