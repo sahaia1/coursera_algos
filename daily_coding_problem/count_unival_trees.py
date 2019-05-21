@@ -30,10 +30,6 @@ For example, the following tree has 5 unival subtrees:
 
 class Solution:
     def countUnivalSubtrees(self, root: TreeNode) -> int:
-        '''
-        for each node
-            if left and right exists, then check if they have the same value as the parent. if both don't exist, return 1 any other case return 0
-        '''
         count = 0
 
         def recursive(node, parent):
