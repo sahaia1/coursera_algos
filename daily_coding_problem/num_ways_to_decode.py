@@ -1,4 +1,6 @@
 '''
+Problem # 7
+
 Good morning! Here's your coding interview problem for today.
 
 This problem was asked by Facebook.
@@ -31,3 +33,43 @@ class Solution:
             return mem[index]
 
         return recursive(0)
+
+
+# Alternate solution
+def coding_problem_7(s):
+    """
+    Given the mapping a = 1, b = 2, ... z = 26, and an encoded message, count the number of ways it can be decoded.
+    Examples:
+    >>> coding_problem_7('111')  # possible interpretations: 'aaa', 'ka', 'ak'
+    3
+    >>> coding_problem_7('2626')  # 'zz', 'zbf', 'bfz', 'bfbf'
+    4
+    This solution, while very clever, does not use memoization
+    """
+    symbols = map(str, range(1, 27))
+    if not s:
+        return 1
+
+    matches = filter(lambda symbol: s.startswith(symbol), symbols)
+    encodings = [coding_problem_7(s[len(m):]) for m in matches]
+    return sum(encodings)
+
+
+'''
+DP iterative solution
+'''
+
+
+class Solution2:
+    def numDecodings(self, s: str) -> int:
+        mem = [1 for _ in range(len(s) + 1)]
+
+        for i in range(len(s) - 1, -1, -1):
+            if s[i] == '0':
+                mem[i] = 0
+            elif i + 1 < len(s) and int('{}{}'.format(s[i], s[i + 1])) <= 26:
+                mem[i] = mem[i + 2] + mem[i + 1]
+            else:
+                mem[i] = mem[i + 1]
+
+        return mem[0]
