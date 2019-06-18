@@ -58,5 +58,29 @@ def recursive_min_steps(matrix, start, end):
     return steps if steps < float('inf') else None
 
 
-def iterative_min_moves(matrix, start, end):
-    pass
+# This is a BFS problem
+from collections import deque
+
+
+def bfs_min_steps(matrix, start, end):
+    rows = len(matrix)
+    if not rows:
+        return 0
+    cols = len(matrix[0])
+    if not cols:
+        return 0
+    q = deque()
+    q.append((start, 0))
+    seen = set()
+    while q:
+        pos, steps = q.popleft()
+        seen.add(pos)
+        if pos == end:
+            return steps
+        for i, j in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            if 0 <= pos[0] + i < rows and 0 <= pos[1] + j < cols and matrix[
+                    pos[0] + i][pos[1] + j] == False and (
+                        pos[0] + i, pos[1] + j) not in seen:
+                q.append(((pos[0] + i, pos[1] + j), steps + 1))
+
+    return None
